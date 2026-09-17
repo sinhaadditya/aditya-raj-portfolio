@@ -37,3 +37,65 @@ document.querySelectorAll(".nav-links a").forEach((link) => {
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
+/* =========================================
+   CONTACT MODAL
+   ========================================= */
+
+const contactOpen = document.getElementById("contact-open");
+const contactModal = document.getElementById("contact-modal");
+const contactClose = document.getElementById("contact-close");
+const contactOverlay = document.getElementById("contact-overlay");
+
+
+function openContactModal() {
+    contactModal.classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+
+function closeContactModal() {
+    contactModal.classList.remove("active");
+    document.body.style.overflow = "";
+}
+
+
+/* OPEN */
+
+contactOpen.addEventListener("click", function(event) {
+
+    event.preventDefault();
+
+    openContactModal();
+
+});
+
+
+/* CLOSE BUTTON */
+
+contactClose.addEventListener("click", function() {
+
+    closeContactModal();
+
+});
+
+
+/* CLICK OUTSIDE */
+
+contactOverlay.addEventListener("click", function() {
+
+    closeContactModal();
+
+});
+
+
+/* ESCAPE KEY */
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+
+        closeContactModal();
+
+    }
+
+});
