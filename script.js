@@ -1,101 +1,105 @@
-const progress = document.querySelector(".progress");
-const glow = document.querySelector(".cursor-glow");
-const reveals = document.querySelectorAll(".reveal");
-const menu = document.querySelector(".menu");
-const navLinks = document.querySelector(".nav-links");
+document.addEventListener("DOMContentLoaded", function () {
 
-window.addEventListener("scroll", () => {
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  progress.style.width = `${(window.scrollY / max) * 100}%`;
-});
+    /* ================================
+       SMOOTH NAVIGATION
+    ================================= */
 
-document.addEventListener("mousemove", (e) => {
-  glow.style.left = `${e.clientX}px`;
-  glow.style.top = `${e.clientY}px`;
-});
+    document.querySelectorAll(".nav-links a").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+            const target = document.querySelector(this.getAttribute("href"));
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      observer.unobserve(entry.target);
+            if (target) {
+                event.preventDefault();
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
+        });
+    });
+
+
+    /* ================================
+       CONTACT MODAL
+    ================================= */
+
+    const contactOpen = document.getElementById("contact-open");
+    const contactModal = document.getElementById("contact-modal");
+    const contactClose = document.getElementById("contact-close");
+    const contactOverlay = document.getElementById("contact-overlay");
+
+    function openContactModal() {
+        if (contactModal) {
+            contactModal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
     }
-  });
-}, {threshold: 0.12});
 
-reveals.forEach((el, i) => {
-  el.style.transitionDelay = `${(i % 5) * 80}ms`;
-  observer.observe(el);
-});
+    function closeContactModal() {
+        if (contactModal) {
+            contactModal.classList.remove("active");
+            document.body.style.overflow = "";
+        }
+    }
 
-menu?.addEventListener("click", () => {
-  navLinks.classList.toggle("open");
-});
+    if (contactOpen) {
+        contactOpen.addEventListener("click", function (event) {
+            event.preventDefault();
+            openContactModal();
+        });
+    }
 
-document.querySelectorAll(".nav-links a").forEach((link) => {
-  link.addEventListener("click", () => navLinks.classList.remove("open"));
-});
+    if (contactClose) {
+        contactClose.addEventListener("click", function () {
+            closeContactModal();
+        });
+    }
 
-document.getElementById("year").textContent = new Date().getFullYear();
-/* =========================================
-   CONTACT MODAL
-   ========================================= */
+    if (contactOverlay) {
+        contactOverlay.addEventListener("click", function () {
+            closeContactModal();
+        });
+    }
 
-const contactOpen = document.getElementById("contact-open");
-const contactModal = document.getElementById("contact-modal");
-const contactClose = document.getElementById("contact-close");
-const contactOverlay = document.getElementById("contact-overlay");
-
-
-function openContactModal() {
-    contactModal.classList.add("active");
-    document.body.style.overflow = "hidden";
-}
-
-
-function closeContactModal() {
-    contactModal.classList.remove("active");
-    document.body.style.overflow = "";
-}
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeContactModal();
+        }
+    });
 
 
-/* OPEN */
+    /* ================================
+       SCROLL REVEAL ANIMATION
+    ================================= */
 
-contactOpen.addEventListener("click", function(event) {
+    const revealElements = document.querySelectorAll(".reveal");
 
-    event.preventDefault();
+    const revealObserver = new IntersectionObserver(
+        function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.12
+        }
+    );
 
-    openContactModal();
-
-});
-
-
-/* CLOSE BUTTON */
-
-contactClose.addEventListener("click", function() {
-
-    closeContactModal();
-
-});
-
-
-/* CLICK OUTSIDE */
-
-contactOverlay.addEventListener("click", function() {
-
-    closeContactModal();
-
-});
+    revealElements.forEach(function (element) {
+        revealObserver.observe(element);
+    });
 
 
-/* ESCAPE KEY */
+    /* ================================
+       CURRENT YEAR
+    ================================= */
 
-document.addEventListener("keydown", function(event) {
+    const yearElement = document.getElementById("year");
 
-    if (event.key === "Escape") {
-
-        closeContactModal();
-
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
     }
 
 });
