@@ -1512,3 +1512,58 @@ visibility: hidden;
     }
 
 }
+/* ===== FIX MOBILE MENU CLICK ===== */
+
+@media (max-width: 900px) {
+
+    .nav {
+        z-index: 9999;
+        pointer-events: auto;
+    }
+
+    .menu {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 10000;
+        width: 46px;
+        height: 46px;
+        padding: 0;
+        cursor: pointer;
+        pointer-events: auto !important;
+        background: transparent;
+        border: 0;
+        color: var(--text);
+        font-size: 24px;
+    }
+
+    .menu:active {
+        transform: scale(0.92);
+    }
+
+    .nav-links.mobile-open {
+        display: flex !important;
+        position: absolute;
+        top: 78px;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        flex-direction: column;
+        gap: 0;
+        padding: 15px 6vw 20px;
+        background: rgba(7, 16, 15, 0.98);
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(18px);
+    }
+
+    .nav-links.mobile-open a {
+        display: block;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .nav-links.mobile-open a:last-child {
+        border-bottom: none;
+    }
+}
