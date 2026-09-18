@@ -16,7 +16,24 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+    /* ================================
+       MOBILE MENU
+    ================================= */
 
+    const menuButton = document.querySelector(".menu");
+    const navLinks = document.querySelector(".nav-links");
+
+    if (menuButton && navLinks) {
+        menuButton.addEventListener("click", function () {
+            navLinks.classList.toggle("mobile-open");
+        });
+
+        navLinks.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                navLinks.classList.remove("mobile-open");
+            });
+        });
+    }
 
     /* ================================
        CONTACT MODAL
@@ -103,3 +120,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+// ===== BACK TO TOP =====
+
+const backToTop = document.getElementById("back-to-top");
+
+if (backToTop) {
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 500) {
+            backToTop.classList.add("show");
+        } else {
+            backToTop.classList.remove("show");
+        }
+    });
+
+    backToTop.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+}

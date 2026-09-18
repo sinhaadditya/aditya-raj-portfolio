@@ -124,7 +124,7 @@ footer{border-top:1px solid var(--line);padding:25px 8vw;display:flex;justify-co
 }
 
 .hero-side .code-card {
-  display: none;
+  display: block;
 }
 
 .profile-container {
@@ -1447,5 +1447,66 @@ footer{border-top:1px solid var(--line);padding:25px 8vw;display:flex;justify-co
     .about .section-head h2 {
         font-size: clamp(38px, 10vw, 58px);
         max-width: 100%;
+    }
+}
+/* ===== BACK TO TOP ===== */
+
+.back-to-top {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(91, 230, 190, 0.35);
+    border-radius: 50%;
+    background: rgba(5, 20, 18, 0.95);
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+opacity: 0;
+visibility: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.back-to-top:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+}
+/* ===== MOBILE MENU ===== */
+
+@media (max-width: 900px) {
+
+    .nav-links.mobile-open {
+        display: flex;
+        position: absolute;
+        top: 78px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        padding: 18px 6vw 22px;
+        background: rgba(7, 16, 15, 0.97);
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(18px);
+        z-index: 99;
+    }
+
+    .nav-links.mobile-open a {
+        padding: 14px 0;
+        font-size: 0.85rem;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .nav-links.mobile-open a:last-child {
+        border-bottom: 0;
     }
 }
