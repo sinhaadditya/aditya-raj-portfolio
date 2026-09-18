@@ -16,25 +16,42 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
-    /* ================================
-       MOBILE MENU
-    ================================= */
+/* ================================
+   MOBILE MENU
+================================= */
 
-    const menuButton = document.querySelector(".menu");
-    const navLinks = document.querySelector(".nav-links");
+const menuButton = document.querySelector(".menu");
+const navLinks = document.querySelector(".nav-links");
 
-    if (menuButton && navLinks) {
-        menuButton.addEventListener("click", function () {
-            navLinks.classList.toggle("mobile-open");
+if (menuButton && navLinks) {
+
+    menuButton.addEventListener("click", function () {
+
+        const isOpen = navLinks.classList.toggle("mobile-open");
+
+        if (isOpen) {
+            menuButton.textContent = "✕";
+            menuButton.setAttribute("aria-label", "Close menu");
+        } else {
+            menuButton.textContent = "☰";
+            menuButton.setAttribute("aria-label", "Open menu");
+        }
+
+    });
+
+    navLinks.querySelectorAll("a").forEach(function (link) {
+
+        link.addEventListener("click", function () {
+
+            navLinks.classList.remove("mobile-open");
+
+            menuButton.textContent = "☰";
+            menuButton.setAttribute("aria-label", "Open menu");
+
         });
 
-        navLinks.querySelectorAll("a").forEach(function (link) {
-            link.addEventListener("click", function () {
-                navLinks.classList.remove("mobile-open");
-            });
-        });
-    }
-
+    });
+}
     /* ================================
        CONTACT MODAL
     ================================= */
@@ -139,4 +156,39 @@ if (backToTop) {
             behavior: "smooth"
         });
     });
+}
+/* ================================
+   CONTACT FORM
+================================ */
+
+const contactForm = document.getElementById("contact-form");
+
+if (contactForm) {
+
+    contactForm.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const message = document.getElementById("message").value.trim();
+
+        const subject = encodeURIComponent(
+            "Portfolio Contact — " + name
+        );
+
+        const body = encodeURIComponent(
+            "Name: " + name + "\n" +
+            "Email: " + email + "\n" +
+            "Phone: " + (phone || "Not provided") + "\n\n" +
+            "Message:\n" + message
+        );
+
+        window.location.href =
+            "mailto:sinhaaditya.in@gmail.com" +
+            "?subject=" + subject +
+            "&body=" + body;
+    });
+
 }
