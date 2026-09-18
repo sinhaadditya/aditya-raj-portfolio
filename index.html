@@ -26,7 +26,12 @@
     <a href="#contact">Contact</a>
 </div>
     <a class="nav-cta" href="#contact">Let's connect <span>↗</span></a>
-    <button class="menu" aria-label="Open menu">☰</button>
+<button class="menu"
+        aria-label="Open menu"
+        type="button"
+        onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">
+    ☰
+</button>
   </nav>
 
   <main>
