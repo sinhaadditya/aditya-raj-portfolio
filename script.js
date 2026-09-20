@@ -160,35 +160,161 @@ if (backToTop) {
 /* ================================
    CONTACT FORM
 ================================ */
-
 const contactForm = document.getElementById("contact-form");
 
 if (contactForm) {
-
-    contactForm.addEventListener("submit", function (event) {
-
+    contactForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const message = document.getElementById("message").value.trim();
+        const submitButton = contactForm.querySelector(".contact-submit");
+        const status = document.getElementById("form-status");
 
-        const subject = encodeURIComponent(
-            "Portfolio Contact — " + name
-        );
+        const formData = new FormData(contactForm);
 
-        const body = encodeURIComponent(
-            "Name: " + name + "\n" +
-            "Email: " + email + "\n" +
-            "Phone: " + (phone || "Not provided") + "\n\n" +
-            "Message:\n" + message
-        );
+        submitButton.disabled = true;
+        submitButton.innerHTML = "SENDING...";
 
-        window.location.href =
-            "mailto:sinhaaditya.in@gmail.com" +
-            "?subject=" + subject +
-            "&body=" + body;
+        try {
+            const response = await fetch(
+                "https://formspree.io/f/mzezzqnq",
+                {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        Accept: "application/json"
+                    }
+                }
+            );
+
+            if (response.ok) {
+                status.textContent = "Your message has been sent successfully.";
+                status.style.display = "block";
+
+                contactForm.reset();
+
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'SEND MESSAGE <span>↗</span>';
+            } else {
+                throw new Error("Form submission failed");
+            }
+
+        } catch (error) {
+            status.textContent =
+                "Something went wrong. Please try again.";
+            status.style.display = "block";
+
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'SEND MESSAGE <span>↗</span>';
+        }
+    });
+}
+/* =========================================
+   PREMIUM SCROLL REVEAL
+   ========================================= */
+
+const revealElements = document.querySelectorAll(".reveal");
+
+const revealObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    },
+    {
+        threshold: 0.12
+    }
+);
+
+revealElements.forEach((element) => {
+    revealObserver.observe(element);
+});
+
+
+/* =========================================
+   ACTIVITY LIST ANIMATION
+   ========================================= */
+
+const activityItems = document.querySelectorAll(".activity-item");
+
+const activityObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+                activityObserver.unobserve(entry.target);
+            }
+        });
+    },
+    {
+        threshold: 0.2
+    }
+);
+
+activityItems.forEach((item) => {
+    activityObserver.observe(item);
+});
+/* =========================================
+   ACTIVE NAVIGATION
+   ========================================= */
+
+const pageSections = document.querySelectorAll("main section[id]");
+const pageNavLinks = document.querySelectorAll(".nav-links a");
+
+function updateActiveNav() {
+
+    let currentSection = "home";
+
+    pageSections.forEach((section) => {
+
+        const sectionTop = section.getBoundingClientRect().top;
+
+        if (sectionTop <= 180) {
+            currentSection = section.id;
+        }
+
     });
 
+    pageNavLinks.forEach((link) => {
+
+        link.classList.remove("active");
+
+        const linkTarget = link.getAttribute("href");
+
+        if (linkTarget === "#" + currentSection) {
+            link.classList.add("active");
+        }
+
+    });
 }
+
+window.addEventListener("scroll", updateActiveNav);
+window.addEventListener("load", updateActiveNav);
+
+updateActiveNav();
+/* =========================================
+   CERTIFICATION SCROLL REVEAL
+   ========================================= */
+
+const certificateLinks =
+    document.querySelectorAll(".certificate-link");
+
+const certificateObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("certificate-visible");
+                certificateObserver.unobserve(entry.target);
+            }
+        });
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+certificateLinks.forEach((certificate) => {
+    certificateObserver.observe(certificate);
+});
