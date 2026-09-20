@@ -318,3 +318,28 @@ const certificateObserver = new IntersectionObserver(
 certificateLinks.forEach((certificate) => {
     certificateObserver.observe(certificate);
 });
+/* =========================================
+   CV PREVIEW + AUTO DOWNLOAD
+   ========================================= */
+
+const cvButton = document.getElementById("download-cv");
+
+if (cvButton) {
+    cvButton.addEventListener("click", function () {
+
+        const cvUrl = this.href;
+
+        // Open PDF preview
+        window.open(cvUrl, "_blank");
+
+        // Start download
+        const downloadLink = document.createElement("a");
+        downloadLink.href = cvUrl;
+        downloadLink.download = "Aditya-Raj-CV.pdf";
+
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+    });
+}
